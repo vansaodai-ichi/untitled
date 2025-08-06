@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'payment_service.dart';
 
 class PaymentsPage extends StatefulWidget {
@@ -37,46 +38,114 @@ class _PaymentsPageState extends State<PaymentsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+        elevation: 0,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Payment Confirmations - ភ្លេចពាក្យសម្ងាត់'),
             Text(
-              _isFirebaseConnected ? 'Firebase Connected' : 'Firebase Disconnected',
-              style: TextStyle(
-                fontSize: 12,
-                color: _isFirebaseConnected ? Colors.green : Colors.red,
+              'payment_confirmations'.tr(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
+            ),
+            Row(
+              children: [
+                Icon(
+                  _isFirebaseConnected ? Icons.cloud_done : Icons.cloud_off,
+                  size: 14,
+                  color: _isFirebaseConnected ? Colors.greenAccent : Colors.redAccent,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _isFirebaseConnected ? 'firebase_connected'.tr() : 'firebase_disconnected'.tr(),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: _isFirebaseConnected ? Colors.greenAccent : Colors.redAccent,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              setState(() {
-                _selectedFilter = value;
-              });
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'all',
-                child: Text('All Payments'),
-              ),
-              const PopupMenuItem(
-                value: 'success',
-                child: Text('Successful'),
-              ),
-              const PopupMenuItem(
-                value: 'failed',
-                child: Text('Failed'),
-              ),
-              const PopupMenuItem(
-                value: 'KHQR',
-                child: Text('KHQR Payments'),
-              ),
-            ],
-            icon: const Icon(Icons.filter_list),
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.language),
+              onPressed: () {
+                // Toggle between Khmer and English
+                if (context.locale == const Locale('km', 'KM')) {
+                  context.setLocale(const Locale('en', 'US'));
+                } else {
+                  context.setLocale(const Locale('km', 'KM'));
+                }
+              },
+              tooltip: context.locale == const Locale('km', 'KM') ? 'switch_to_english'.tr() : 'switch_to_khmer'.tr(),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: PopupMenuButton<String>(
+              onSelected: (value) {
+                setState(() {
+                  _selectedFilter = value;
+                });
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 'all',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.list_alt, size: 20),
+                      const SizedBox(width: 8),
+                      Text('all_payments'.tr()),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'success',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.check_circle, size: 20, color: Colors.green),
+                      const SizedBox(width: 8),
+                      Text('successful'.tr()),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'failed',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.error, size: 20, color: Colors.red),
+                      const SizedBox(width: 8),
+                      Text('failed'.tr()),
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 'KHQR',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.qr_code, size: 20),
+                      const SizedBox(width: 8),
+                      Text('khqr_payments'.tr()),
+                    ],
+                  ),
+                ),
+              ],
+              icon: const Icon(Icons.filter_list),
+            ),
           ),
         ],
       ),
@@ -90,13 +159,13 @@ class _PaymentsPageState extends State<PaymentsPage> {
                 children: [
                   const Icon(Icons.error_outline, size: 64, color: Colors.red),
                   const SizedBox(height: 16),
-                  Text('Error: ${snapshot.error}'),
+                  Text('${'error'.tr()}: ${snapshot.error}'),
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {});
                     },
-                    child: const Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),
@@ -104,13 +173,13 @@ class _PaymentsPageState extends State<PaymentsPage> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Loading payments...'),
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 16),
+                  Text('loading_payments'.tr()),
                 ],
               ),
             );
@@ -126,7 +195,7 @@ class _PaymentsPageState extends State<PaymentsPage> {
                   const Icon(Icons.payment_outlined, size: 64, color: Colors.grey),
                   const SizedBox(height: 16),
                   Text(
-                    'No payment confirmations found - ភ្លេចពាក្យសម្ងាត់',
+                    'no_payments_found'.tr(),
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 8),
@@ -174,13 +243,13 @@ class _PaymentsPageState extends State<PaymentsPage> {
   String _getEmptyStateMessage() {
     switch (_selectedFilter) {
       case 'success':
-        return 'No successful payments found';
+        return 'no_successful_payments'.tr();
       case 'failed':
-        return 'No failed payments found';
+        return 'no_failed_payments'.tr();
       case 'KHQR':
-        return 'No KHQR payments found';
+        return 'no_khqr_payments'.tr();
       default:
-        return 'No payment confirmations found in Firebase';
+        return 'no_payments_found'.tr();
     }
   }
 
@@ -202,14 +271,14 @@ class _PaymentsPageState extends State<PaymentsPage> {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('App Number: ${payment.applicationNumber}'),
-            Text('Bill Number: ${payment.billNumber}'),
-            Text('Source: ${payment.source}'),
-            Text('Status: ${payment.success ? 'Success' : 'Failed'}'),
-            Text('Created By: ${payment.createdBy}'),
-            Text('Date: ${payment.createdAt}'),
+            Text('${'app_number'.tr()}: ${payment.applicationNumber}'),
+            Text('${'bill_number'.tr()}: ${payment.billNumber}'),
+            Text('${'source'.tr()}: ${payment.source}'),
+            Text('${'status'.tr()}: ${payment.success ? 'success'.tr() : 'failed'.tr()}'),
+            Text('${'created_by'.tr()}: ${payment.createdBy}'),
+            Text('${'date'.tr()}: ${payment.createdAt}'),
             if (payment.testMessage != null)
-              Text('Message: ${payment.testMessage}'),
+              Text('${'message'.tr()}: ${payment.testMessage}'),
           ],
         ),
         trailing: payment.hasPopup 
