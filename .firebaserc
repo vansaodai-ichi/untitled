@@ -9,6 +9,13 @@
           "test-ad968-1c13a"
         ]
       }
+    },
+    "test-98dac": {
+      "hosting": {
+        "main": [
+          "test-98dac"
+        ]
+      }
     }
   },
   "etags": {}
