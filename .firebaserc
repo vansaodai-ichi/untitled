@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "test-98dac"
-  }
+  },
+  "targets": {
+    "test-ad968": {
+      "hosting": {
+        "main": [
+          "test-ad968-1c13a"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

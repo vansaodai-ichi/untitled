@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'firebase_options.dart';
 import 'payments_page.dart';
+import 'widgets/omni_text.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -124,30 +125,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Column(
+                child: const Column(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.account_balance_wallet,
                       size: 48,
                       color: Colors.white,
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      'app_title'.tr(),
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    SizedBox(height: 12),
+                    OmniText(
+                      text: 'app_title',
+                      size: 24,
+                      weight: FontWeight.bold,
+                      color: Colors.white,
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'forgot_password_khmer'.tr(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.white70,
-                      ),
+                    SizedBox(height: 8),
+                    OmniText(
+                      text: 'forgot_password_khmer',
+                      size: 16,
+                      color: Colors.white70,
                       textAlign: TextAlign.center,
                     ),
                   ],
@@ -203,9 +200,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text(
-                        'counter_text'.tr(),
-                        style: Theme.of(context).textTheme.titleMedium,
+                      const OmniText(
+                        text: 'counter_text',
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
@@ -241,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.pushNamed(context, '/payments');
                   },
                   icon: const Icon(Icons.payment),
-                  label: Text('view_payments'.tr()),
+                  label: const OmniText(text: 'view_payments'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
@@ -263,27 +259,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
-                        title: Row(
+                        title: const Row(
                           children: [
-                            const Icon(Icons.lock_reset, color: Colors.deepPurple),
-                            const SizedBox(width: 8),
+                            Icon(Icons.lock_reset, color: Colors.deepPurple),
+                            SizedBox(width: 8),
                             Expanded(
-                              child: Text('forgot_password_dialog_title'.tr()),
+                              child: OmniText(text: 'forgot_password_dialog_title'),
                             ),
                           ],
                         ),
-                        content: Text('forgot_password_dialog_content'.tr()),
+                        content: const OmniText(text: 'forgot_password_dialog_content'),
                         actions: [
                           TextButton(
                             onPressed: () => Navigator.pop(context),
-                            child: Text('ok'.tr()),
+                            child: const OmniText(text: 'ok'),
                           ),
                         ],
                       ),
                     );
                   },
                   icon: const Icon(Icons.lock_reset),
-                  label: Text('forgot_password'.tr()),
+                  label: const OmniText(text: 'forgot_password'),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 56),
                     shape: RoundedRectangleBorder(
